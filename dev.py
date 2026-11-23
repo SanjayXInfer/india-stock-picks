@@ -53,11 +53,15 @@ def main() -> int:
     from app import config, db
     from app.publish import scrape_and_publish
 
+    from datetime import datetime, timedelta, timezone
+
     with db.session() as conn:
-        empty = conn.execute("SELECT COUNT(*) FROM articles").fetchone()[0] == 0
-    if empty:
+        last = db.get_meta(conn, "last_run")
+    stale = not last or datetime.fromisoformat(last) < datetime.now(timezone.utc) - timedelta(minutes=30)
+    if stale:
+        # Catch up on anything published while the PC was off (scheduled runs that were missed don't replay).
         import threading
-        print("Database is empty: running a first scrape in the background (takes a few minutes)...")
+        print("Data is older than 30 min: scraping now in the background (and publishing if AUTO_PUBLISH=1)...")
         threading.Thread(target=scrape_and_publish, daemon=True).start()
 
     import uvicorn
