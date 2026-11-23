@@ -1,0 +1,30 @@
+# --- Secrets: never commit ---
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+
+# --- Local state: DB, HTTP cache, logs, downloaded master lists ---
+data/*
+!data/.gitkeep
+*.db
+*.sqlite*
+*.log
+logs/
+
+# --- Build output (published by CI, not committed) ---
+site/
+
+# --- Tooling / editor / assistant history ---
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.claude/
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db

@@ -1,0 +1,16 @@
+anthropic>=0.70
+apscheduler>=3.10,<4
+fastapi>=0.115
+feedparser>=6.0
+httpx[http2]>=0.27
+jsonschema>=4.23
+lxml>=5.3
+protego>=0.3
+pydantic>=2.9
+pyyaml>=6.0
+rapidfuzz>=3.10
+selectolax>=0.3.21
+truststore>=0.10
+uvicorn>=0.32
+yfinance>=0.2.50
+pytest>=8.3

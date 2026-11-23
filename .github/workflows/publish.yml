@@ -1,0 +1,77 @@
+# Scrape on a schedule and publish the static dashboard to GitHub Pages.
+#
+# What gets published: ONLY the ./site folder (index.html, app.js, styles.css, data.json).
+# What never gets published: the API key (a repository secret), the SQLite DB and HTTP cache (kept in the
+# private Actions cache between runs), logs, .env, and the repo's git history (Pages serves the artifact,
+# not the repository). scripts/check_public.py blocks the deploy if anything sensitive slips into ./site.
+#
+# Times are UTC (IST = UTC+5:30). GitHub may start scheduled runs a few minutes late.
+name: Scrape and publish
+
+on:
+  schedule:
+    - cron: "30,45 1 * * 1-5"          # 07:00, 07:15 IST  (pre-market, every 15 min)
+    - cron: "0,15,30,45 2-3 * * 1-5"   # 07:30-09:15 IST
+    - cron: "45 4-9 * * 1-5"           # 10:15-15:15 IST, hourly during market hours
+    - cron: "30 10-15 * * *"           # 16:00-21:00 IST every 30 min (next-day picks)
+    - cron: "0 11-15 * * *"
+  workflow_dispatch: {}                # "Run workflow" button = manual refresh
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Restore database between runs (private to this repo's workflows)
+        uses: actions/cache@v4
+        with:
+          path: data
+          key: data-${{ github.run_id }}
+          restore-keys: data-
+
+      - name: Scrape
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}   # optional; heuristic extractor if unset
+          CONTACT_URL: ${{ vars.CONTACT_URL }}                  # optional repo variable, e.g. the repo URL
+        run: python scripts/seed.py
+
+      - name: Build static site
+        run: python scripts/export_static.py
+
+      - name: Public safety check (fails the deploy if a secret or unexpected file is present)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}   # lets the checker verify its value is absent
+        run: python scripts/check_public.py
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

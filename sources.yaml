@@ -1,0 +1,78 @@
+# Source configuration. Each entry maps to app/sources/<module>.py.
+# Any option here overrides the module's DEFAULT_OPTIONS (feeds, listings, sitemaps, pages, ...).
+#
+#   enabled      on/off switch
+#   user_agent   "bot"     = honest "IndiaStockRecoDashboard/1.0" User-Agent (default)
+#                "browser" = a regular Chrome User-Agent. Only use this if you accept that the site
+#                            blocks self-identified bots and you choose to fetch it anyway.
+#   min_delay_s  minimum seconds between requests to this domain (robots.txt crawl-delay wins if larger)
+#   max_articles max new articles fetched per run
+
+defaults:
+  user_agent: bot
+  min_delay_s: 3
+  max_articles: 25
+
+sources:
+  economictimes:
+    module: economictimes
+    label: Economic Times
+    enabled: true
+
+  moneycontrol:
+    module: moneycontrol
+    label: Moneycontrol
+    enabled: true
+
+  livemint:
+    module: livemint
+    label: Livemint
+    enabled: true
+
+  cnbctv18:
+    module: cnbctv18
+    label: CNBC-TV18
+    enabled: true
+
+  financialexpress:
+    module: financialexpress
+    label: Financial Express
+    enabled: true
+
+  goodreturns:
+    module: goodreturns
+    label: Goodreturns
+    enabled: true
+
+  trendlyne:
+    module: trendlyne
+    label: Trendlyne
+    enabled: true
+    min_delay_s: 10   # robots.txt crawl-delay
+
+  # Blocks self-identified bots with HTTP 403 (even robots.txt). Works only with user_agent: browser.
+  business_standard:
+    module: business_standard
+    label: Business Standard
+    enabled: false
+    user_agent: bot
+
+  # Same as Business Standard: 403 for bot User-Agents at the CDN.
+  ndtvprofit:
+    module: ndtvprofit
+    label: NDTV Profit
+    enabled: false
+    user_agent: bot
+
+  # robots.txt on news.google.com disallows /rss/ for every user agent; left off on purpose.
+  google_news:
+    module: google_news
+    label: Google News
+    enabled: false
+
+  # Example of a config-only source (no code):
+  # some_site:
+  #   module: generic
+  #   label: Some Site
+  #   feeds: [https://example.com/markets/rss]
+  #   listings: [{url: https://example.com/stocks/, pattern: "/stocks/.+-\\d+$"}]

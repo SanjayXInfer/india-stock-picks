@@ -1,0 +1,65 @@
+[
+  {
+    "id": "moneycontrol_broker_title",
+    "note": "Moneycontrol broker-report headline format",
+    "title": "Buy Piramal Finance; target of Rs 2470: Motilal Oswal",
+    "text": "Motilal Oswal's research report on Piramal Finance. The company showcased its use of AI across lending operations. We expect loan growth to stay strong and margins to improve over the next 12 months, supporting earnings.",
+    "expect": [{"stock": "Piramal Finance", "symbol": "PIRAMALFIN", "action": "Buy", "target": 2470, "brokerage": "Motilal Oswal", "horizon": "long-term"}]
+  },
+  {
+    "id": "broker_sl_note",
+    "note": "Broker technical note with SL @ / Target @",
+    "title": "Stocks to buy today: Choice Broking's Sachin Gupta picks 2 stocks",
+    "text": "Disclaimer: written by Sachin Gupta, VP - Research, Choice Broking. Buy PHOENIXLTD in cash above 2285 | SL @ 2200 | Target @ 2450. The stock has broken out of a consolidation range with rising volume. Buy TATAELXSI above 5400 | SL @ 5250 | Target @ 5700. Momentum indicators turned positive.",
+    "expect": [
+      {"stock": "PHOENIXLTD", "symbol": "PHOENIXLTD", "action": "Buy", "target": 2450, "stop_loss": 2200, "cmp": 2285, "brokerage": "Choice Broking", "analyst": "Sachin Gupta"},
+      {"stock": "TATAELXSI", "symbol": "TATAELXSI", "action": "Buy", "target": 5700, "stop_loss": 5250, "cmp": 5400}
+    ]
+  },
+  {
+    "id": "mint_listicle",
+    "note": "Livemint 'Name: Buy at | Target | Stop-loss' listicle",
+    "title": "Top 3 stocks to buy: Swiggy, Tata Chemicals, Amber Enterprises by Ganesh Dongre",
+    "text": "Markets ended the week higher.\n“Holding above support keeps the structure positive,” said Ganesh Dongre of Anand Rathi.\n1] Swiggy: Buy at ₹179 | Target ₹190 | Stop-loss ₹175;\n2] Tata Chemicals: Buy at ₹640 | Target ₹700 | Stop-loss ₹610; and\n3] Amber Enterprises: Buy at ₹6750 | Target ₹7300 | Stop-loss ₹6300.",
+    "expect": [
+      {"stock": "Swiggy", "symbol": "SWIGGY", "action": "Buy", "target": 190, "stop_loss": 175, "cmp": 179, "analyst": "Ganesh Dongre", "brokerage": "Anand Rathi", "horizon": "short-term"},
+      {"stock": "Tata Chemicals", "symbol": "TATACHEM", "action": "Buy", "target": 700, "stop_loss": 610},
+      {"stock": "Amber Enterprises", "symbol": "AMBER", "action": "Buy", "target": 7300, "stop_loss": 6300}
+    ]
+  },
+  {
+    "id": "et_rating_roundup",
+    "note": "ET 'Buy, Sell or Hold' roundup with broker rating sentences",
+    "title": "Buy, Sell or Hold: Citi maintains sell on Hindustan Zinc; Morgan Stanley remains overweight on Dixon",
+    "text": "Brokerages shared their views on metals and electronics. Citi maintains sell on Hindustan Zinc with a target price of Rs 420, citing weaker zinc prices. Morgan Stanley remains overweight on Dixon with a target of Rs 18,500 as order inflows stay strong.",
+    "expect": [
+      {"stock": "Hindustan Zinc", "symbol": "HINDZINC", "action": "Sell", "target": 420, "brokerage": "Citi"},
+      {"stock": "Dixon", "symbol": "DIXON", "action": "Buy", "target": 18500, "brokerage": "Morgan Stanley"}
+    ]
+  },
+  {
+    "id": "ndtv_research_headline",
+    "note": "NDTV Profit research-report headline",
+    "title": "Tata Technologies: PL Capital Retains 'Reduce', Sees Limited Upside From Current Levels; Check Target Price",
+    "text": "PL Capital retained its reduce rating on Tata Technologies after the investor day, with a target price of Rs 670. The brokerage believes the growth roadmap is already priced in.",
+    "expect": [{"stock": "Tata Technologies", "symbol": "TATATECH", "action": "Reduce", "target": 670, "brokerage": "PL Capital"}]
+  },
+  {
+    "id": "cnbc_target_table",
+    "note": "Article with a broker target table (rendered as 'cell | cell' rows by text.py)",
+    "title": "Five banking stocks that Motilal Oswal recommends buying for up to 30% upside",
+    "text": "Motilal Oswal expects banking earnings to compound at 17% over FY26-28, led by private banks.\n\nBank | Rating | Target Price | Upside\nICICI Bank | Buy | ₹1,750 | 8.8%\nHDFC Bank | Buy | ₹925 | 12.6%\nAU Small Finance Bank | Buy | ₹1,275 | 29.6%\nBank | Buy | Hold | Sell\nICICI Bank | 52 | 0 | 0",
+    "expect": [
+      {"stock": "ICICI Bank", "symbol": "ICICIBANK", "action": "Buy", "target": 1750, "brokerage": "Motilal Oswal"},
+      {"stock": "HDFC Bank", "symbol": "HDFCBANK", "action": "Buy", "target": 925},
+      {"stock": "AU Small Finance Bank", "symbol": "AUBANK", "action": "Buy", "target": 1275}
+    ]
+  },
+  {
+    "id": "no_pick_index_view",
+    "note": "Index outlook with 'buy on dips' but no concrete stock call: must yield nothing mappable",
+    "title": "Nifty Bank surges 19% in five sessions. Is it time to buy or wait for a pullback?",
+    "text": "Analysts advise traders to buy on dips rather than chase the index. Nifty may target 26,000 in the near term while Bank Nifty looks overbought.",
+    "expect": []
+  }
+]

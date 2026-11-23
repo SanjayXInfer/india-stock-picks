@@ -1,0 +1,175 @@
+# Common short names / nicknames -> NSE symbol. Keys are matched case-insensitively
+# after normalisation (punctuation removed). Add freely.
+aliases:
+  ril: RELIANCE
+  reliance: RELIANCE
+  bob: BANKBARODA
+  bank of baroda: BANKBARODA
+  sbi: SBIN
+  state bank: SBIN
+  hul: HINDUNILVR
+  hindustan unilever: HINDUNILVR
+  l&t: LT
+  l and t: LT
+  larsen: LT
+  larsen and toubro: LT
+  larsen & toubro: LT
+  m&m: M&M
+  mahindra: M&M
+  mahindra and mahindra: M&M
+  mahindra & mahindra: M&M
+  hind zinc: HINDZINC
+  hindalco: HINDALCO
+  hpcl: HINDPETRO
+  bpcl: BPCL
+  ioc: IOC
+  ongc: ONGC
+  ntpc: NTPC
+  power grid: POWERGRID
+  powergrid: POWERGRID
+  coal india: COALINDIA
+  tcs: TCS
+  infy: INFY
+  infosys: INFY
+  hcl tech: HCLTECH
+  hcltech: HCLTECH
+  hcl technologies: HCLTECH
+  wipro: WIPRO
+  tech mahindra: TECHM
+  ltimindtree: LTM
+  lti mindtree: LTM
+  kotak bank: KOTAKBANK
+  kotak mahindra bank: KOTAKBANK
+  indusind: INDUSINDBK
+  indusind bank: INDUSINDBK
+  axis: AXISBANK
+  pnb: PNB
+  bajaj auto: BAJAJ-AUTO
+  bajaj finance: BAJFINANCE
+  bajaj finserv: BAJAJFINSV
+  maruti: MARUTI
+  maruti suzuki: MARUTI
+  eicher: EICHERMOT
+  eicher motors: EICHERMOT
+  hero moto: HEROMOTOCO
+  hero motocorp: HEROMOTOCO
+  tata motors: TMPV
+  tata motors pv: TMPV
+  tata steel: TATASTEEL
+  tata power: TATAPOWER
+  tata consumer: TATACONSUM
+  tata consumer products: TATACONSUM
+  tata elxsi: TATAELXSI
+  tata technologies: TATATECH
+  tata chemicals: TATACHEM
+  jsw steel: JSWSTEEL
+  jsw energy: JSWENERGY
+  ultratech: ULTRACEMCO
+  ultratech cement: ULTRACEMCO
+  ultratech cements: ULTRACEMCO
+  asian paints: ASIANPAINT
+  sun pharma: SUNPHARMA
+  dr reddy: DRREDDY
+  dr reddys: DRREDDY
+  dr reddy's: DRREDDY
+  aurobindo: AUROPHARMA
+  aurobindo pharma: AUROPHARMA
+  zomato: ETERNAL
+  eternal: ETERNAL
+  paytm: PAYTM
+  one97: PAYTM
+  nykaa: NYKAA
+  fsn e-commerce: NYKAA
+  policybazaar: POLICYBZR
+  pb fintech: POLICYBZR
+  indigo: INDIGO
+  interglobe: INDIGO
+  interglobe aviation: INDIGO
+  irctc: IRCTC
+  irfc: IRFC
+  rvnl: RVNL
+  rail vikas nigam: RVNL
+  hal: HAL
+  bel: BEL
+  bhel: BHEL
+  nalco: NATIONALUM
+  sail: SAIL
+  gail: GAIL
+  adani ports: ADANIPORTS
+  adani enterprises: ADANIENT
+  adani green: ADANIGREEN
+  adani energy: ADANIENSOL
+  adani energy solutions: ADANIENSOL
+  adani power: ADANIPOWER
+  apl apollo: APLAPOLLO
+  apl apollo tubes: APLAPOLLO
+  apollo hospitals: APOLLOHOSP
+  cg power: CGPOWER
+  dixon: DIXON
+  polycab: POLYCAB
+  waaree: WAAREEENER
+  waaree energies: WAAREEENER
+  tbz: TBZ
+  sterlite tech: STLTECH
+  jk tyre: JKTYRE
+  j&k bank: J&KBANK
+  jammu and kashmir bank: J&KBANK
+  kfin: KFINTECH
+  kfin technologies: KFINTECH
+  jubilant food: JUBLFOOD
+  jubilant foodworks: JUBLFOOD
+  titagarh: TITAGARH
+  titagarh rail: TITAGARH
+  m&m financial: M&MFIN
+  hdfc amc: HDFCAMC
+  hdfc life: HDFCLIFE
+  sbi life: SBILIFE
+  sbi cards: SBICARD
+  icici lombard: ICICIGI
+  icici pru: ICICILIFE
+  icici prudential life: ICICILIFE
+  mcx: MCX
+  cdsl: CDSL
+  bse: BSE
+  lic: LICI
+  ccl: CCL
+  page industries: PAGEIND
+  physicswallah: PWL
+
+# Names that must never be mapped to a stock (indices, commodities, foreign stocks, crypto).
+blocklist:
+  - nifty
+  - nifty 50
+  - nifty50
+  - bank nifty
+  - banknifty
+  - nifty bank
+  - finnifty
+  - fin nifty
+  - midcap nifty
+  - nifty midcap
+  - sensex
+  - bankex
+  - india vix
+  - gold
+  - silver
+  - crude
+  - crude oil
+  - natural gas
+  - copper
+  - bitcoin
+  - ethereum
+  - dow
+  - dow jones
+  - nasdaq
+  - s&p 500
+  - apple
+  - microsoft
+  - nvidia
+  - tesla
+  - amazon
+  - alphabet
+  - google
+  - meta
+  - netflix
+  - anthropic
