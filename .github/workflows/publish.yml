@@ -9,13 +9,11 @@
 name: Scrape and publish
 
 on:
-  schedule:
-    - cron: "30,45 1 * * 1-5"          # 07:00, 07:15 IST  (pre-market, every 15 min)
-    - cron: "0,15,30,45 2-3 * * 1-5"   # 07:30-09:15 IST
-    - cron: "45 4-9 * * 1-5"           # 10:15-15:15 IST, hourly during market hours
-    - cron: "30 10-15 * * *"           # 16:00-21:00 IST every 30 min (next-day picks)
-    - cron: "0 11-15 * * *"
-  workflow_dispatch: {}                # "Run workflow" button = manual refresh
+  # Schedule disabled: several sources (Financial Express, Trendlyne, parts of CNBC-TV18) block GitHub's
+  # datacenter IPs, so the recommended setup scrapes on your own PC and runs `python dev.py publish`
+  # (see README). This manual trigger is kept only as a fallback; it deploys via the Pages "GitHub
+  # Actions" source, which conflicts with the gh-pages branch setup, so use one or the other.
+  workflow_dispatch: {}
 
 permissions:
   contents: read

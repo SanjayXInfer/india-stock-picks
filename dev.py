@@ -3,6 +3,7 @@
     python dev.py              start server + scheduler on http://127.0.0.1:8000 (seeds first if DB is empty)
     python dev.py seed [src..] run one scrape now
     python dev.py export       build the public static site in ./site and run the safety check
+    python dev.py publish      export + safety check + push ONLY ./site to the gh-pages branch
     python dev.py test         run unit tests
 """
 from __future__ import annotations
@@ -31,6 +32,15 @@ def main() -> int:
     if cmd == "export":
         rc = subprocess.call([py, "scripts/export_static.py"], cwd=ROOT)
         return rc or subprocess.call([py, "scripts/check_public.py"], cwd=ROOT)
+    if cmd == "publish":
+        sys.path.insert(0, str(ROOT))
+        from app.publish import PublishError, publish
+        try:
+            print(publish(), "-> gh-pages")
+            return 0
+        except PublishError as e:
+            print(e)
+            return 1
     if cmd == "test":
         return subprocess.call([py, "-m", "pytest", "-q", *sys.argv[2:]], cwd=ROOT)
     if cmd != "dev":
@@ -41,14 +51,14 @@ def main() -> int:
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
     logging.getLogger("httpx").setLevel(logging.WARNING)
     from app import config, db
-    from app.pipeline import run_scrape
+    from app.publish import scrape_and_publish
 
     with db.session() as conn:
         empty = conn.execute("SELECT COUNT(*) FROM articles").fetchone()[0] == 0
     if empty:
         import threading
         print("Database is empty: running a first scrape in the background (takes a few minutes)...")
-        threading.Thread(target=run_scrape, daemon=True).start()
+        threading.Thread(target=scrape_and_publish, daemon=True).start()
 
     import uvicorn
     print(f"Dashboard: http://127.0.0.1:{config.PORT}")

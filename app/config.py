@@ -46,6 +46,7 @@ ANTHROPIC_MODEL = env("ANTHROPIC_MODEL", "claude-haiku-5-5")
 CONTACT_URL = env("CONTACT_URL")
 FETCH_PRICES = env("FETCH_PRICES", "1") not in ("0", "false", "no")
 PORT = int(env("PORT", "8000"))
+AUTO_PUBLISH = env("AUTO_PUBLISH", "0") in ("1", "true", "yes")
 
 BOT_USER_AGENT = "Mozilla/5.0 (compatible; IndiaStockRecoDashboard/1.0" + (
     f"; +{CONTACT_URL})" if CONTACT_URL else ")"

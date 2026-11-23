@@ -7,7 +7,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 
 from .config import IST
-from .pipeline import run_scrape
+from .publish import scrape_and_publish
 
 log = logging.getLogger(__name__)
 
@@ -25,7 +25,7 @@ def start_scheduler() -> BackgroundScheduler:
     sched = BackgroundScheduler(timezone=IST, job_defaults={"coalesce": True, "max_instances": 1,
                                                             "misfire_grace_time": 600})
     for i, (desc, fields) in enumerate(SCHEDULE):
-        sched.add_job(run_scrape, CronTrigger(timezone=IST, **fields), id=f"scrape-{i}", name=desc)
+        sched.add_job(scrape_and_publish, CronTrigger(timezone=IST, **fields), id=f"scrape-{i}", name=desc)
     sched.start()
     log.info("scheduler started: %s", [j.name for j in sched.get_jobs()])
     return sched

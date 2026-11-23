@@ -30,6 +30,7 @@ python dev.py                 # http://127.0.0.1:8000  (server + scheduler; seed
 | `python dev.py` | Starts the local dashboard + scheduler (127.0.0.1 only). Runs a first scrape if the DB is empty. |
 | `python dev.py seed [source ...]` | Runs one scrape now (all enabled sources, or only the named ones). |
 | `python dev.py export` | Builds the public static site in `./site` and runs the safety check. |
+| `python dev.py publish` | Export + safety check + push only `./site` to the `gh-pages` branch. |
 | `python dev.py test` | Runs the unit tests. |
 
 `make dev / seed / export / test` do the same thing if you have `make`.
@@ -43,6 +44,7 @@ python dev.py                 # http://127.0.0.1:8000  (server + scheduler; seed
 | `CONTACT_URL` | unset | Public URL appended to the User-Agent (e.g. your repo). Don't use a personal email. |
 | `FETCH_PRICES` | `1` | Fetch delayed prices from Yahoo Finance (`SYMBOL.NS`) to compute upside. `0` turns it off. |
 | `PORT` | `8000` | Local port. |
+| `AUTO_PUBLISH` | `0` | `1` = publish to `gh-pages` after every scheduled scrape / Refresh. |
 
 **LLM cost:** one call per new reco-looking article (roughly 50–150 a day). Syndicated copies and
 already-seen URLs are never sent twice. The output is constrained to a strict JSON schema and validated
@@ -134,40 +136,35 @@ Missing a nickname? Add it to `app/aliases.yaml` (e.g. `"bob": BANKBARODA`).
 
 ## Sharing publicly (GitHub Pages) without leaking anything
 
-The public site is a **static snapshot**: `index.html`, `app.js`, `styles.css`, `data.json`. Nothing
-else is published.
+Several sources block cloud/datacenter IPs (from GitHub Actions: Financial Express → robots.txt refused,
+Trendlyne → HTTP 405, CNBC-TV18 → partial 403). So **scraping runs on your own PC** and only the finished
+static page is published. The API key never leaves your PC.
 
-| Thing | Where it lives | Published? |
-|---|---|---|
-| `ANTHROPIC_API_KEY` | `.env` locally (git-ignored) / repository **secret** in CI | Never. The safety check blocks the deploy if its value appears in the site. |
-| SQLite DB, HTTP cache, NSE CSV | `data/` (git-ignored) / private Actions cache | Never |
-| Logs, `.venv`, `.claude/`, editor files | git-ignored | Never |
-| Git history | your repository | Not part of the Pages site, which serves only the build artifact |
-| Scraped data | `data.json` | Yes, built from an explicit field allowlist (`app/aggregate.py`) |
+The public site is 5 static files: `index.html`, `app.js`, `styles.css`, `data.json`, `.nojekyll`.
+`python dev.py publish` rebuilds them, runs `scripts/check_public.py` (which blocks publishing if there's
+any other file, a key/token pattern, the value of any `*KEY*`/`*TOKEN*`/`*SECRET*` env var, or a local
+path), then force-pushes **only those files** as a single fresh commit to the `gh-pages` branch. Your
+code, its history, the DB, logs and `.env` are never part of that branch.
 
-`scripts/check_public.py` runs before every deploy. It fails if `site/` contains any file other than
-those 5, an API-key/token pattern, the value of any `*KEY*`/`*TOKEN*`/`*SECRET*` environment variable,
-a local filesystem path or an email address.
+### One-time setup
 
-### Steps
+1. Push this repo to GitHub (done once: `git push -u origin main`).
+2. `python dev.py publish` creates the `gh-pages` branch.
+3. Repo → **Settings → Pages → Build and deployment → Source: Deploy from a branch**,
+   Branch: **gh-pages**, folder **/ (root)** → Save. The site is at `https://<user>.github.io/<repo>/`.
+4. Put `ANTHROPIC_API_KEY=...` (optional) and `AUTO_PUBLISH=1` in `.env` (git-ignored).
 
-1. Create a GitHub repo and push this folder. `.gitignore` already excludes secrets and local data.
-   Check with `git status` before the first commit.
-2. *(Recommended)* Commit under GitHub's private noreply address so your email isn't in the public history:
-   `git config user.email "<id>+<username>@users.noreply.github.com"` (GitHub → Settings → Emails).
-3. Repo → **Settings → Secrets and variables → Actions**: add the secret `ANTHROPIC_API_KEY` (optional).
-   You can also add a variable `CONTACT_URL` set to the repo URL.
-4. Repo → **Settings → Pages → Source: GitHub Actions**.
-5. **Actions → Scrape and publish → Run workflow** for the first build. After that it runs on the schedule.
+### Keeping it updated
+
+Run `python dev.py` and leave it running. Every scheduled scrape (and the Refresh button) then
+re-publishes automatically. The site only updates while the PC is on and the app is running; to start it
+at login, add a Windows Task Scheduler task running `<repo>\.venv\Scripts\python.exe <repo>\dev.py`.
+`python dev.py publish` pushes the current data once by hand.
 
 Notes:
-- On a **public** repo, Actions logs are public too. The workflow never prints secrets, and GitHub masks
-  them anyway.
-- To keep the **code private**, GitHub Pages from a private repo needs a paid plan. Alternatively, run
-  `python dev.py export` locally and upload `site/` to Cloudflare Pages or Netlify (drag-and-drop).
-- Scheduled workflows on public repos are paused after 60 days without repository activity.
-- Some news sites may block cloud/datacenter IPs. If a source shows as failing in Source health only on
-  the published site, that's why. The local app still works.
+- The repo is public, so its code is visible; that's fine, because no secrets live in it.
+  Don't store the key in the GitHub repo at all (delete any `ANTHROPIC_API_KEY` Actions secret you added
+  earlier if you're not using the cloud workflow).
 - Republishing scraped headlines publicly carries more responsibility than private use. The site links
   to originals, shows only short summaries, credits every analyst and brokerage, and carries the
   disclaimer. Check the sources' terms (Trendlyne in particular) and SEBI's rules on distributing

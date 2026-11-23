@@ -11,7 +11,8 @@ from fastapi.staticfiles import StaticFiles
 
 from . import config, db
 from .aggregate import build_payload
-from .pipeline import is_running, run_scrape
+from .pipeline import is_running
+from .publish import scrape_and_publish
 from .scheduler import start_scheduler
 
 log = logging.getLogger(__name__)
@@ -42,7 +43,7 @@ def status():
 def refresh():
     if is_running():
         return {"status": "already running"}
-    threading.Thread(target=run_scrape, daemon=True, name="manual-refresh").start()
+    threading.Thread(target=scrape_and_publish, daemon=True, name="manual-refresh").start()
     return {"status": "started"}
 
 
