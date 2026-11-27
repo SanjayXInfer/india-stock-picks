@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'none'">
+  <title>India Stock Picks</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <h1>India Stock Picks</h1>
+    <p class="sub">Daily NSE recommendations aggregated from Indian financial news, ranked by independent analysts</p>
+  </div>
+  <div class="controls">
+    <span class="updated" id="updated">Loading…</span>
+    <label class="select">
+      <span class="sr-only">Lookback</span>
+      <select id="lookback">
+        <option value="today">Today</option>
+        <option value="24h">Last 24h</option>
+        <option value="72h">Last 3 days</option>
+      </select>
+    </label>
+    <button id="refresh" class="btn" hidden>Refresh now</button>
+  </div>
+</header>
+
+<main>
+  <section aria-labelledby="consensus-h">
+    <div class="section-head">
+      <h2 id="consensus-h">Consensus picks</h2>
+      <p class="hint">Stocks with ≥2 distinct analysts/brokerages. Syndicated copies of the same call count once.</p>
+    </div>
+    <div id="consensus" class="cards"></div>
+  </section>
+
+  <section aria-labelledby="all-h">
+    <div class="section-head">
+      <h2 id="all-h">All recommendations <span class="count" id="all-count"></span></h2>
+    </div>
+    <div class="filters">
+      <input id="f-search" type="search" placeholder="Search symbol or company" aria-label="Search symbol or company">
+      <select id="f-action" aria-label="Action"><option value="">All actions</option></select>
+      <select id="f-horizon" aria-label="Horizon"><option value="">All horizons</option></select>
+      <select id="f-source" aria-label="Source"><option value="">All sources</option></select>
+      <label class="inline">Min analysts
+        <select id="f-min"><option>1</option><option>2</option><option>3</option><option>4</option></select>
+      </label>
+    </div>
+    <div class="table-wrap">
+      <table id="all-table">
+        <thead><tr>
+          <th data-k="published">Time</th>
+          <th data-k="symbol">Stock</th>
+          <th data-k="action">Action</th>
+          <th data-k="target" class="num">Target</th>
+          <th data-k="stop_loss" class="num">Stop-loss</th>
+          <th data-k="upside" class="num">Upside</th>
+          <th data-k="horizon">Horizon</th>
+          <th data-k="who">Analyst / brokerage</th>
+          <th data-k="source_label">Source</th>
+          <th data-k="n" class="num" title="Distinct analysts/brokerages with the same view on this stock">Analysts</th>
+          <th>Reason</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="health-h">
+    <div class="section-head"><h2 id="health-h">Source health</h2></div>
+    <div class="table-wrap">
+      <table id="health" class="compact">
+        <thead><tr><th>Source</th><th>Status</th><th>Last success (IST)</th><th class="num" title="New articles found by the last run">New articles</th><th class="num" title="Recommendations stored from this source in the last 4 days">Picks (4d)</th><th>Note</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p class="disclaimer" id="disclaimer">Aggregated third-party opinions. Not investment advice.</p>
+  <p class="fine">Recommendations belong to the analysts and publications credited; follow the links for the original articles.
+    Summaries are short paraphrases or excerpts. Prices are delayed. <span id="extractor-note"></span></p>
+</footer>
+<script src="app.js"></script>
+</body>
+</html>
